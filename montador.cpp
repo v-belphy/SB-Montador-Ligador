@@ -10,6 +10,7 @@ map<string, int> Tdef;
 map<string, array<int, 2>> instructions;
 vector<vector<string>> codigo_gerado;
 map<int, int> endereco_linha;
+vector<int> relativos;
 bool flag_ligar = false;
 
 
@@ -145,7 +146,9 @@ int first_pass(vector<vector<string>> &file){
                 pos += instructions[word][1];
                 skip = instructions[word][1] - 1;
             } else if(word == "SPACE"){
-                if(j + 1 < (int)(file[i].size())) skip = 1, pos += stoi(file[i][j+1]);
+                if(j + 1 < (int)(file[i].size())){
+                    skip = 1, pos += stoi(file[i][j+1]);
+                }
                 else skip = 0, pos += 1;
             } else if(word == "CONST"){
                 pos ++;
@@ -180,8 +183,8 @@ int second_pass(vector<vector<string>> &file){
                 while(j<(int)(file[i].size())){
                     int idx = 0;
                     tie(word, idx) = solve_vector(file[i][j]);
-                    if(instructions.count(word)) v.push_back(to_string(instructions[word][0]));
-                    else if(TS.count(word)) v.push_back(to_string(TS[word] + idx));
+                    if(instructions.count(word)) v.push_back(to_string(instructions[word][0])), relativos.push_back(0);
+                    else if(TS.count(word)) v.push_back(to_string(TS[word] + idx)), relativos.push_back(1);
                     else{
                         cerr << "Rotulo ausente: " << word << endl;
                         return -1;
@@ -206,6 +209,7 @@ int second_pass(vector<vector<string>> &file){
                     return -1;
                 }
                 while(arg--){
+                    relativos.push_back(0);
                     v.push_back("00");
                     codigo_gerado.push_back(v);
                     v.clear();
@@ -220,6 +224,7 @@ int second_pass(vector<vector<string>> &file){
                     cerr << "Possui mais operandos do que o permitido na diretiva: " << word << endl;
                     return -1;
                 }
+                relativos.push_back(0);
                 v.push_back(to_string(transform_to_number(file[i][j+1])));
                 codigo_gerado.push_back(v);
                 endereco_linha[(int)(codigo_gerado.size()-1)] = pos++;
@@ -239,11 +244,13 @@ int main(){
     string filename; cin >> filename;
     vector<vector<string>> file = preprocess_file(filename);
     file = uso_def(file);
-    
+
+    /*    
     for(int i=0; i<file.size(); i++){
         for(auto it: file[i]) cout << it << ' ';
         cout << endl;
     }
+    */
 
     set_instructions();
     if(first_pass(file) == -1) return 0;
@@ -257,11 +264,12 @@ int main(){
             cout << "U, " << it.first << ' ' << it.second << endl;
         }
     }
+    cout << "R, "; for(auto it: relativos){cout << it << ' ';}
+    cout << endl;
     for(int i=0; i<codigo_gerado.size(); i++){
         for(auto it: codigo_gerado[i]) cout << it << ' ';
-        cout << endl;
     }
-    cout << "YIPIEEE" << endl;
+    cout << endl;
 
     return 0;
 }
