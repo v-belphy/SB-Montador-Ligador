@@ -54,7 +54,7 @@ vector<string> formatted_line(string &s){
 vector<vector<string>> section_text_data(vector<vector<string>> &file){
     vector<vector<string>> result;
 
-    int idx_data = 0, idx_text = 0;
+    int idx_data = -1, idx_text = -1;
     bool flag = false;
     for(int i=0; i<(int)(file.size()); i++){
         for(int j=0; j<(int)(file[i].size()); j++){
@@ -64,7 +64,7 @@ vector<vector<string>> section_text_data(vector<vector<string>> &file){
             }
         }
     }
-    if(idx_data > idx_text){
+    if(idx_data > idx_text || idx_data == -1 || idx_text == -1){
         for(int i=0; i<(int)(file.size()); i++){
             //if(i == idx_data || i == idx_text) continue;
             result.push_back(file[i]);
@@ -96,8 +96,10 @@ vector<vector<string>> preprocess_file (string &filename){
     while (getline(inputFile, line)) {
         
         line = remove_comments(line);
+        if(line.empty()) continue;
         line = to_upper(line);
         line = trim_spaces(line);
+        if(line.empty()) continue;
 
         vector<string> processed_line = formatted_line(line);
 

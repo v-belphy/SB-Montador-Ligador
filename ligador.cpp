@@ -3,10 +3,10 @@
 using namespace std;
 
 map<string, int> def[5];
-map<string, int> uso[5];
+map<string, vector<int>> uso[5];
 vector<int> relativos;
-vector<int> codigo[5];
-vector<int> codigo_geral;
+vector<string> codigo[5];
+vector<string> codigo_geral;
 int tam[5];
 
 void parsear(string line, int idx){
@@ -28,7 +28,7 @@ void parsear(string line, int idx){
             if(!flag) name += line[i];
             else num += line[i];
         }
-        uso[idx][name] = stoi(num);
+        uso[idx][name].push_back(stoi(num));
     } else if(line[0] == 'R'){
         string num = "";
         for(int i=3; i<(int)(line.size()); i++){
@@ -42,13 +42,14 @@ void parsear(string line, int idx){
     } else {
         string num = "";
         for(int i=0; i<(int)(line.size()); i++){
-            num += line[i];
             if(line[i] == ' '){
-                codigo[idx].push_back(stoi(num));
+                codigo[idx].push_back(num);
                 num = "";
+            } else {
+                num += line[i];
             }
         }
-        if(num.size()) codigo[idx].push_back(stoi(num));
+        if(num.size()) codigo[idx].push_back(num);
         
         for(auto it: codigo[idx]) codigo_geral.push_back(it);
         for(int i=idx+1; i<5; i++){
@@ -81,22 +82,39 @@ int main(int argc, char **argv){
         }
     }
 
+    map<int, bool> mflag;
+
     for(int i=0; i<argc - 1; i++){
         for(auto it: uso[i]){
             int val = -1;
             string name = it.first;
-            int num = it.second;
             for(int j=0; j<argc - 1; j++){
                 for(auto et: def[j]){
                     if(name == et.first){
-                        val = tam[j] + et.second;
+                        val = et.second + tam[j];
                     }
                     if(val != -1){break;}
                 }
                 if(val != -1){break;}
             }
             if(val == -1){cerr << name << " nao foi declarado em nenhum arquivo" << endl; return 0;}
-            codigo_geral[num + tam[i]] = val;
+            for(auto num: it.second){
+                codigo_geral[num + tam[i]] = to_string(val);
+                mflag[num + tam[i]] = true;
+            }
+        }
+    }
+
+    for(int i=0; i<argc-1; i++){
+        for(int j=0; j<(int)(codigo[i].size()); j++){
+            if(relativos[j + tam[i]] && !mflag.count(j + tam[i])){
+                //cerr << i << ' ' << j << ' ';
+                //cerr << codigo_geral[j + tam[i]] << ' ';
+                //cerr << "BBB" << endl;
+                int auxi = stoi(codigo_geral[j + tam[i]]) + tam[i];
+                codigo_geral[j + tam[i]] = to_string(auxi);
+                //cerr << codigo_geral[j + tam[i]] << endl;
+            }
         }
     }
 
@@ -106,13 +124,16 @@ int main(int argc, char **argv){
         return 1;
     }
 
+    /*
     for(int i=0; i<argc-1; i++){
         for(auto it: def[i]) arquivoSaida << "D, " << it.first << ' ' << it.second + tam[i] << endl;
     }
     for(int i=0; i<argc-1; i++){
         for(auto it: uso[i]) arquivoSaida << "U, " << it.first << ' ' << it.second + tam[i] << endl;
     }
-    arquivoSaida << "R,"; for(auto it: relativos) arquivoSaida << ' ' << it; arquivoSaida << endl;
+    */
+    //arquivoSaida << "R,"; for(auto it: relativos) arquivoSaida << ' ' << it; arquivoSaida << endl;
+    
     for(int i=0; i<(int)(codigo_geral.size()); i++){
         if(i == (int)(codigo_geral.size())) arquivoSaida << codigo_geral[i] << endl;
         else arquivoSaida << codigo_geral[i] << ' ';

@@ -263,6 +263,7 @@ int main(int argc, char** argv){
     } else if(extension == "pre"){
         vector<vector<string>> file = preprocess_file(filename);
         file = uso_def(file);
+
         set_instructions();
         if(first_pass(file) == -1) return 0;
         if(second_pass(file) == -1) return 0;
@@ -276,15 +277,20 @@ int main(int argc, char** argv){
         }
 
         if(flag_ligar){
+
+            for(auto it: Tdef){
+                if(TS.count(it.first) == 0){cerr << "Label public nao foi declarada" << endl; return 0;}
+            }
+
             for(auto it: Tdef){
                 arquivoSaida << "D, " << it.first << ' ' << it.second << endl;
             }
             for(auto it: Tuso){
                 arquivoSaida << "U, " << it.first << ' ' << it.second << endl;
             }
+            arquivoSaida << "R, "; for(auto it: relativos){arquivoSaida << it << ' ';}
+            arquivoSaida << endl;
         }
-        arquivoSaida << "R, "; for(auto it: relativos){arquivoSaida << it << ' ';}
-        arquivoSaida << endl;
         for(int i=0; i<codigo_gerado.size(); i++){
             for(auto it: codigo_gerado[i]) arquivoSaida << it << ' ';
         }
