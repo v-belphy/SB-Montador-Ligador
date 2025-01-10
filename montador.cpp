@@ -112,12 +112,12 @@ vector<vector<string>> uso_def(vector<vector<string>> &file){
 
 }
 
-// falta fazer pro "EXTERN", "PUBLIC", "BEGIN", "END"
 int first_pass(vector<vector<string>> &file){
     int pos = 0;
     int prev_label = -1;
     int skip = 0;
     for(int i=0; i<(int)(file.size()); i++){
+        if(file[i].size() == 2 && file[i][0] == "SECTION" && (file[i][1] == "DATA" || file[i][1] == "TEXT")) continue;
         for(int j=0; j<(int)(file[i].size()); j++){
             if(skip){
                 if(externs.find(file[i][j]) != externs.end()){
@@ -165,6 +165,7 @@ int first_pass(vector<vector<string>> &file){
 int second_pass(vector<vector<string>> &file){
     int pos = 0, j;
     for(int i=0; i<(int)(file.size()); i++){
+        if(file[i].size() == 2 && file[i][0] == "SECTION" && (file[i][1] == "DATA" || file[i][1] == "TEXT")) continue;
         for(j=0; j<(int)(file[i].size()); j++){
             string word = file[i][j];
             int n = word.size();
@@ -238,38 +239,60 @@ int second_pass(vector<vector<string>> &file){
     return 0;
 }
 
-int main(){
-
-    cout << "Digite o nome do arquivo:" << endl;
-    string filename; cin >> filename;
-    vector<vector<string>> file = preprocess_file(filename);
-    file = uso_def(file);
-
-    /*    
-    for(int i=0; i<file.size(); i++){
-        for(auto it: file[i]) cout << it << ' ';
-        cout << endl;
-    }
-    */
-
-    set_instructions();
-    if(first_pass(file) == -1) return 0;
-    if(second_pass(file) == -1) return 0;
-    set_def();
-    if(flag_ligar){
-        for(auto it: Tdef){
-            cout << "D, " << it.first << ' ' << it.second << endl;
+int main(int argc, char** argv){
+    if(argc == 1){cerr << "Favor passar o arquivo para o programa" << endl;  return 0;}
+    string filename(argv[1]);
+    string new_filename = filename.substr(0, (int)(filename.size())-4);
+    string extension = filename.substr((int)(filename.size())-3);
+    if(extension == "asm"){
+        vector<vector<string>> file = preprocess_file(filename);
+        ofstream arquivoSaida(new_filename + ".pre");
+        if (!arquivoSaida.is_open()) {
+            std::cerr << "Erro ao abrir o arquivo para escrita!" << std::endl;
+            return 1;
         }
-        for(auto it: Tuso){
-            cout << "U, " << it.first << ' ' << it.second << endl;
+
+        for(int i=0; i<(int)(file.size()); i++){
+            for(int j=0; j<(int)(file[i].size()); j++){
+                if(j == (int)(file[i].size()) - 1) arquivoSaida << file[i][j] << endl;
+                else arquivoSaida << file[i][j] << ' ';
+            }
         }
+
+        arquivoSaida.close();
+    } else if(extension == "pre"){
+        vector<vector<string>> file = preprocess_file(filename);
+        file = uso_def(file);
+        set_instructions();
+        if(first_pass(file) == -1) return 0;
+        if(second_pass(file) == -1) return 0;
+
+        set_def();
+
+        ofstream arquivoSaida(new_filename + ".obj");
+        if (!arquivoSaida.is_open()) {
+            std::cerr << "Erro ao abrir o arquivo para escrita!" << std::endl;
+            return 1;
+        }
+
+        if(flag_ligar){
+            for(auto it: Tdef){
+                arquivoSaida << "D, " << it.first << ' ' << it.second << endl;
+            }
+            for(auto it: Tuso){
+                arquivoSaida << "U, " << it.first << ' ' << it.second << endl;
+            }
+        }
+        arquivoSaida << "R, "; for(auto it: relativos){arquivoSaida << it << ' ';}
+        arquivoSaida << endl;
+        for(int i=0; i<codigo_gerado.size(); i++){
+            for(auto it: codigo_gerado[i]) arquivoSaida << it << ' ';
+        }
+        arquivoSaida << endl;
+    
+    } else {
+        cout << "extensao invalida! somente é aceito extensoes de arquivos .asm e .pre" << endl;
     }
-    cout << "R, "; for(auto it: relativos){cout << it << ' ';}
-    cout << endl;
-    for(int i=0; i<codigo_gerado.size(); i++){
-        for(auto it: codigo_gerado[i]) cout << it << ' ';
-    }
-    cout << endl;
 
     return 0;
 }

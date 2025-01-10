@@ -56,7 +56,8 @@ vector<vector<string>> expand_macro(vector<vector<string>> &new_file, vector<boo
         }
         if(vaux.size()) result.push_back(vaux);
     }
-
+    
+    return result;
 }
 
 vector<vector<string>> solve_macro(vector<vector<string>> &new_file){
@@ -67,6 +68,7 @@ vector<vector<string>> solve_macro(vector<vector<string>> &new_file){
     // do MDT and MNT
     vector<bool> v_skip((int)(new_file.size()), false);
     for(int i=0; i<(int)(new_file.size()); i++){
+        if(new_file[i].size() == 0) continue;
         if(1 < (int)(new_file[i].size()) && new_file[i][1]== "MACRO"){
             v_skip[i] = true;
             solving_macro = true;
@@ -79,8 +81,8 @@ vector<vector<string>> solve_macro(vector<vector<string>> &new_file){
             solving_macro = false;
             process_macro(macro_lines, macro_name);
             macro_lines.clear();
-        } else {
-            if(solving_macro) v_skip[i] = true, macro_lines.push_back(new_file[i]);
+        } else if(solving_macro == true){
+            v_skip[i] = true, macro_lines.push_back(new_file[i]);
         }
     }
 

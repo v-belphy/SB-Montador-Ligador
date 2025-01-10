@@ -66,13 +66,18 @@ vector<vector<string>> section_text_data(vector<vector<string>> &file){
     }
     if(idx_data > idx_text){
         for(int i=0; i<(int)(file.size()); i++){
-            if(i == idx_data || i == idx_text) continue;
+            //if(i == idx_data || i == idx_text) continue;
             result.push_back(file[i]);
         }
     } else {
+        bool flagend = false;
         for(int i=0; i<idx_data; i++) result.push_back(file[i]);
-        for(int i=idx_text + 1; i<file.size(); i++) result.push_back(file[i]);
-        for(int i=idx_data + 1; i<idx_text; i++) result.push_back(file[i]);
+        for(int i=idx_text; i<file.size(); i++){
+            if(file[i][0] == "END"){flagend = true; continue;}
+            result.push_back(file[i]);
+        }
+        for(int i=idx_data; i<idx_text; i++) result.push_back(file[i]);
+        if(flagend) result.push_back({"END"});
     }
 
     return result;
@@ -89,13 +94,19 @@ vector<vector<string>> preprocess_file (string &filename){
 
     string line;
     while (getline(inputFile, line)) {
+        
         line = remove_comments(line);
         line = to_upper(line);
         line = trim_spaces(line);
+
         vector<string> processed_line = formatted_line(line);
+
         new_file.push_back(processed_line);
-    }   
+    }
+       
     new_file = section_text_data(new_file);
+
+
     inputFile.close();
 
     new_file = solve_macro(new_file);
