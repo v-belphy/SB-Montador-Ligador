@@ -29,10 +29,14 @@ Caso o arquivo .pre possui 'BEGIN' e 'END', deverá conter a tabela de usos, tab
 Caso contrário, deverá apenas conter o código gerado.
 
 Exemplo de .pre com 'BEGIN' e 'END' após ser montado:
-D, [nome_da_label] [endereço_de_declaracao_da_label]  -> Cada linha iniciada por 'D, ' representa uma linha da tabela de definições
-U, [nome_da_label] [endereco_de_uso_da_label]         -> Cada linha iniciada por 'U, ' representa uma linha da tabela de uso
-R, 0 1 ...                                            -> Nessa linha iniciada por 'R, ' contém valores binários, representando se o i-ésimo endereço é um valor relativo (1) ou valor absoluto (0)
-2 17 ...                                              -> Na última linha contém o código gerado.
+
+D, [nome_da_label] [endereço_de_declaracao_da_label]   -> Cada linha iniciada por 'D, ' representa uma linha da tabela de definições
+
+U, [nome_da_label] [endereco_de_uso_da_label]   -> Cada linha iniciada por 'U, ' representa uma linha da tabela de uso
+
+R, 0 1 ...   -> Nessa linha iniciada por 'R, ' contém valores binários, representando se o i-ésimo endereço é um valor relativo (1) ou valor absoluto (0)
+
+2 17 ...   -> Na última linha contém o código gerado.
 
 # Ligador
 Compile o arquivo utilizando o comando 'make ligador.cpp'.
