@@ -4,6 +4,9 @@ Estudante: Belphy Pierre Starling
 Matrícula: 202006420
 
 Esse projeto consiste realizar um montador e um ligador de um assembly inventado visto na aula de Software Básico na Universidade de Brasília.
+
+Primeiramente, compila-se o projeto por meio do comando `make`.
+
 Para implementar o projeto, utilizou-se o Windows com o terminal do Ubuntu por meio do WSL (Windows Subsystem for Linux)
 O assembly inventado consiste das seguintes instruções:
 
@@ -18,11 +21,10 @@ Responsável por:
 - Processar macros (espera-se que as macros estejam sempre no inicio do arquivo, antes do BEGIN e do SECTION TEXT)
 
 # Montador
-Primeiramente, compile o arquivo por meio do comando 'make montador.cpp', após isso, segue-se alguns comandos:
 
-Permite transformar um arquivo .asm em .pre realizando o pré-processamento, por meio do comando './montador [nome_do_arquivo].asm'
+Permite transformar um arquivo .asm em .pre realizando o pré-processamento, por meio do comando `./montador [nome_do_arquivo].asm`
 
-Além disso, permite transformar .pre em .obj, por meio do algoritmo de duas passagens, por meio do comando './montador [nome_do_arquivo].pre'
+Além disso, permite transformar .pre em .obj, por meio do algoritmo de duas passagens, por meio do comando `./montador [nome_do_arquivo].pre`
 
 Caso o arquivo .pre possui 'BEGIN' e 'END', deverá conter a tabela de usos, tabela de definições, vetor de relativos e o código gerado para ser ligado posteriormente.
 
@@ -39,11 +41,10 @@ R, 0 1 ...   -> Nessa linha iniciada por 'R, ' contém valores binários, repres
 2 17 ...   -> Na última linha contém o código gerado.
 
 # Ligador
-Compile o arquivo utilizando o comando 'make ligador.cpp'.
 
-O ligador aceita de 2 até 5 arquivos .obj para serem ligados, resultando em um único arquivo [nome_do_primeiro_arquivo_obj].e
+O ligador aceita de 2 até 5 arquivos .obj para serem ligados, resultando em um único arquivo `[nome_do_primeiro_arquivo_obj].e`
 
-Para utiliza-lo, digite o comando './ligador [nome_do_arquivo1].obj [nome_do_arquivo2].obj'
+Para utiliza-lo, digite o comando `./ligador [nome_do_arquivo1].obj [nome_do_arquivo2].obj`
 
 A ligação ocorre de maneira sequencial á ordem dos arquivos passados como parâmetro.
 
