@@ -19,9 +19,13 @@ Responsável por:
 
 # Montador
 Primeiramente, compile o arquivo por meio do comando 'make montador.cpp', após isso, segue-se alguns comandos:
+
 Permite transformar um arquivo .asm em .pre realizando o pré-processamento, por meio do comando './montador [nome_do_arquivo].asm'
+
 Além disso, permite transformar .pre em .obj, por meio do algoritmo de duas passagens, por meio do comando './montador [nome_do_arquivo].pre'
+
 Caso o arquivo .pre possui 'BEGIN' e 'END', deverá conter a tabela de usos, tabela de definições, vetor de relativos e o código gerado para ser ligado posteriormente.
+
 Caso contrário, deverá apenas conter o código gerado.
 
 Exemplo de .pre com 'BEGIN' e 'END' após ser montado:
@@ -32,8 +36,11 @@ R, 0 1 ...                                            -> Nessa linha iniciada po
 
 # Ligador
 Compile o arquivo utilizando o comando 'make ligador.cpp'.
+
 O ligador aceita de 2 até 5 arquivos .obj para serem ligados, resultando em um único arquivo [nome_do_primeiro_arquivo_obj].e
+
 Para utiliza-lo, digite o comando './ligador [nome_do_arquivo1].obj [nome_do_arquivo2].obj'
+
 A ligação ocorre de maneira sequencial á ordem dos arquivos passados como parâmetro.
 
 
