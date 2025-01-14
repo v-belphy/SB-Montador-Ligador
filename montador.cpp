@@ -13,6 +13,27 @@ map<int, int> endereco_linha;
 vector<int> relativos;
 bool flag_ligar = false;
 
+int hexa_neg_pos(string s) {
+    bool msb;
+    string val = s.substr(2, (int) s.size() - 2);
+    int num = stoi(val, nullptr, 16);
+    int len = val.size();
+    int mask = 1 << ((len * 4) - 1);
+    msb = mask & num;
+    if (msb) {
+        while (val.size() < 4) {
+            string aux = "F";
+            aux += val;
+            val = aux;
+        }
+    }
+    int norm = stoi(val, nullptr, 16);
+    if (norm < (1 << 15)) {
+        return norm;
+    } else {
+        return norm - (1 << 16);
+    }
+}
 
 int transform_to_number(string &s){
     bool flag = true;
@@ -22,16 +43,19 @@ int transform_to_number(string &s){
         flag = false;
     }
     if(flag) return stoi(s);
+    if(s.size() > 6){cerr << "ERRO: [Overflow] Tamanho maximo e de 16 bits" << endl; return 0;}
     if((int)(s.size()) > 1){
         if(s[0] == '0' && s[1] == 'X'){
             flag = true;
             for(int i=2; i<(int)(s.size()); i++){
-                if(s[i] >= '0' && s[i] <= '9'){continue;}
+                if((s[i] >= '0' && s[i] <= '9') || (s[i] >= 'A' && s[i] <= 'F')){continue;}
                 flag = false;
             }
         }
     }
-    if(flag) return stoi(s, nullptr, 16);
+    if(flag){
+        return hexa_neg_pos(s);
+    }
     cerr << "ERRO: Operando nao e um numero" << endl;
     return 0;
 }
@@ -109,7 +133,6 @@ vector<vector<string>> uso_def(vector<vector<string>> &file){
         if(!v.empty()) result.push_back(v);
     }
     return result;
-
 }
 
 int first_pass(vector<vector<string>> &file){

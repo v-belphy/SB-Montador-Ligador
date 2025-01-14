@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 #include "macro.h"
+
 using namespace std;
 
 string remove_comments(string &s){
@@ -83,6 +84,26 @@ vector<vector<string>> section_text_data(vector<vector<string>> &file){
     return result;
 }
 
+vector<vector<string>> begin_exception(vector<vector<string>> &file){
+    vector<vector<string>> result;
+    bool flag = false;
+    for(int i=0; i<file.size(); i++){
+        vector<string> v;
+        if(file[i].size() == 2 && file[i][0] == "BEGIN:"){
+            string label = file[i][1]; label += ":";
+            v.push_back(label);
+            v.push_back(file[i][0].substr(0, (int)(file[i][0].size()) - 1));
+            result.push_back(v);
+        } else if(file[i].size() == 1 && file[i][0] == "BEGIN:"){
+            v.push_back(file[i][0].substr(0, (int)(file[i][0].size()) - 1));
+            result.push_back(v);
+        } else {
+            result.push_back(file[i]);
+        }
+    }
+    return result;
+}
+
 vector<vector<string>> preprocess_file (string &filename){
     ifstream inputFile(filename);
     vector<vector<string>> new_file; 
@@ -105,7 +126,8 @@ vector<vector<string>> preprocess_file (string &filename){
 
         new_file.push_back(processed_line);
     }
-       
+
+    new_file = begin_exception(new_file);      
     new_file = section_text_data(new_file);
 
 
