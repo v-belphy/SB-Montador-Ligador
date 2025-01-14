@@ -13,6 +13,8 @@ O assembly inventado consiste das seguintes instruções:
 
 ![Tabela de Instruções do Assembly Inventado](tabela_assembly.png)
 
+Além das diretivas `SPACE` e `CONST`.
+
 # Pre-processamento
 Responsável por:
 - Ignorar os comentários
