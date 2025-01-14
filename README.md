@@ -8,6 +8,7 @@ Esse projeto consiste realizar um montador e um ligador de um assembly inventado
 Primeiramente, compila-se o projeto por meio do comando `make`.
 
 Para implementar o projeto, utilizou-se o Windows com o terminal do Ubuntu por meio do WSL (Windows Subsystem for Linux)
+
 O assembly inventado consiste das seguintes instruções:
 
 ![Tabela de Instruções do Assembly Inventado](tabela_assembly.png)
