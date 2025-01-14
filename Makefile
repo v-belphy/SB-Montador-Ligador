@@ -8,4 +8,4 @@ ligador:
 	g++ ligador.cpp -o ligador
 
 clean:
-	rm montador ligador
+	rm -rf montador ligador
