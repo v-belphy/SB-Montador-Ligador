@@ -5,7 +5,7 @@ Matrícula: 202006420
 
 Esse projeto consiste realizar um montador e um ligador de um assembly inventado visto na aula de Software Básico na Universidade de Brasília.
 
-Primeiramente, compila-se o projeto por meio do comando `make`.
+Primeiramente, compila-se o projeto por meio do comando `make`. Se por acaso der erro, compile manualmente com os seguintes comandos: `g++ montador.cpp -o montador` e `g++ ligador.cpp -o ligador`
 
 Para implementar o projeto, utilizou-se o Windows com o terminal do Ubuntu por meio do WSL (Windows Subsystem for Linux)
 
