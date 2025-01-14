@@ -1,4 +1,4 @@
-.PHONY: all
+.PHONY: all clean
 all: montador ligador
 
 montador:
@@ -6,3 +6,6 @@ montador:
 
 ligador:
 	g++ ligador.cpp -o ligador
+
+clean:
+	rm montador ligador
