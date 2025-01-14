@@ -80,6 +80,7 @@ void set_instructions(){
     instructions["ADD"] = {1, 2};
     instructions["SUB"] = {2, 2};
     instructions["MUL"] = {3, 2};
+    instructions["MULT"] = {3, 2};
     instructions["DIV"] = {4, 2};
     instructions["JMP"] = {5, 2};
     instructions["JMPN"] = {6, 2};
