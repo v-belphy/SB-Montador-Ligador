@@ -9,6 +9,8 @@ Primeiramente, compila-se o projeto por meio do comando `make`. Se por acaso der
 
 Para implementar o projeto, utilizou-se o Windows com o terminal do Ubuntu por meio do WSL (Windows Subsystem for Linux)
 
+Observação importante: O teste deverá ser escrito em Linux para funcionar corretamente.
+
 O assembly inventado consiste das seguintes instruções:
 
 ![Tabela de Instruções do Assembly Inventado](tabela_assembly.png)
@@ -51,4 +53,4 @@ Para utiliza-lo, digite o comando `./ligador [nome_do_arquivo1].obj [nome_do_arq
 
 A ligação ocorre de maneira sequencial á ordem dos arquivos passados como parâmetro.
 
-
+Além disso, os endereços são indexados em 0, portanto as tabelas também.
