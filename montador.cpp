@@ -208,8 +208,8 @@ int second_pass(vector<vector<string>> &file){
                 while(j<(int)(file[i].size())){
                     int idx = 0;
                     tie(word, idx) = solve_vector(file[i][j]);
-                    if(instructions.count(word)) v.push_back(to_string(instructions[word][0])), relativos.push_back(0);
-                    else if(TS.count(word)) v.push_back(to_string(TS[word] + idx)), relativos.push_back(1);
+                    if(TS.count(word)) v.push_back(to_string(TS[word] + idx)), relativos.push_back(1);
+                    else if(instructions.count(word)) v.push_back(to_string(instructions[word][0])), relativos.push_back(0);
                     else{
                         cerr << "Rotulo ausente: " << word << endl;
                         return -1;
