@@ -16,7 +16,7 @@ bool flag_ligar = false;
 int hexa_neg_pos(string s) {
     bool msb;
     string val = s.substr(2, (int) s.size() - 2);
-    /*int num = stoi(val, nullptr, 16);
+    int num = stoi(val, nullptr, 16);
     int len = val.size();
     int mask = 1 << ((len * 4) - 1);
     msb = mask & num;
@@ -26,7 +26,7 @@ int hexa_neg_pos(string s) {
             aux += val;
             val = aux;
         }
-    }*/
+    }
     int norm = stoi(val, nullptr, 16);
     if (norm < (1 << 15)) {
         return norm;
