@@ -54,3 +54,13 @@ Para utiliza-lo, digite o comando `./ligador [nome_do_arquivo1].obj [nome_do_arq
 A ligação ocorre de maneira sequencial á ordem dos arquivos passados como parâmetro.
 
 Além disso, os endereços são indexados em 0, portanto as tabelas também.
+
+# Observações
+Permite o uso de hexadecimal, seguindo as regras de complemento de 2. Por exemplo: 0xF = -1 e 0x0F = 15.
+Permite o uso do BEGIN das seguintes formas:
+  1) BEGIN: LABEL
+  2) BEGIN:
+     LABEL:
+  3) LABEL: BEGIN
+  4) BEGIN
+
