@@ -25,7 +25,7 @@ string trim_spaces(string &s){
     string aux = "";
     char prev = '#';
     for(int i=0; i<(int)(s.size()); i++){
-        if((prev == ',' || prev == ' ') && (s[i] == ',' || s[i] == ' ') ) continue;
+        if((prev == ',' || prev == ' ' || prev == '\t') && (s[i] == ',' || s[i] == ' ' || s[i] == '\t')) continue;
         aux += s[i];
         prev = s[i];
     }
@@ -33,8 +33,8 @@ string trim_spaces(string &s){
 
     //if first char or last char is a space, remove it
     string result= "";
-    bool fc_space = (s[0] == ' ' || s[0] == ',');
-    bool lc_space = (s[(int)(s.size()) - 1] == ' ' || s[(int)(s.size()) - 1] == ',');
+    bool fc_space = (s[0] == ' ' || s[0] == ',' || s[0] == '\t');
+    bool lc_space = (s[(int)(s.size()) - 1] == ' ' || s[(int)(s.size()) - 1] == ',' || s[(int)(s.size()) - 1] == '\t');
     for(int i=(int)(fc_space); i<(int)(s.size()) - (int)(lc_space); i++){
         result += s[i];
     }
