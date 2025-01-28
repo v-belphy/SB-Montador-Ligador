@@ -23,11 +23,11 @@ void process_macro(vector<vector<string>> &macro_lines, string &macro_name){
     MNT[macro_name] = {(int)(macro_args[macro_name].size()), begin_idx};
 }
 
-vector<vector<string>> expand_macro(vector<vector<string>> &new_file, vector<bool> &v_skip){
+vector<vector<string>> expand_macro(vector<vector<string>> &new_file, vector<bool> &v_skip, bool flag){
     vector<vector<string>> result;
 
     for(int i=0; i<(int)(new_file.size()); i++){
-        if(v_skip[i]) continue;
+        if(v_skip[i] && flag) continue;
         vector<string> vaux;
         for(int j=0; j<(int)(new_file[i].size()); j++){
             string word = new_file[i][j];
@@ -87,6 +87,9 @@ vector<vector<string>> solve_macro(vector<vector<string>> &new_file){
     }
 
     // expand macro
-    return expand_macro(new_file, v_skip);   
-    
+    vector<vector<string>> vnew = expand_macro(new_file, v_skip, 1);
+    for(int i=1; i<20; i++){
+        vnew = expand_macro(vnew, v_skip, 0);
+    }
+    return vnew;
 }
