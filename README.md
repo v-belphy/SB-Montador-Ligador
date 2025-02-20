@@ -1,8 +1,4 @@
 # Visão Geral
-Estudante: Belphy Pierre Starling 
-
-Matrícula: 202006420
-
 Esse projeto consiste realizar um montador e um ligador de um assembly inventado visto na aula de Software Básico na Universidade de Brasília.
 
 Primeiramente, compila-se o projeto por meio do comando `make`. Se por acaso der erro, compile manualmente com os seguintes comandos: `g++ montador.cpp -o montador` e `g++ ligador.cpp -o ligador`
@@ -57,6 +53,7 @@ Além disso, os endereços são indexados em 0, portanto as tabelas também.
 
 # Observações
 Permite o uso de hexadecimal, seguindo as regras de complemento de 2. Por exemplo: 0xF = -1 e 0x0F = 15.
+
 Permite o uso do BEGIN das seguintes formas:
   1) BEGIN: LABEL
   2) BEGIN:
